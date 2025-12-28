@@ -1,12 +1,3 @@
-
-const LOCATIONS = [
-  { name: "Main Gate", pitch: 0.12, yaw: 1.05 },
-  { name: "Club House", pitch: -0.05, yaw: -0.8 },
-  { name: "Main Road", pitch: 0.02, yaw: 2.1 },
-  { name: "Temple", pitch: 0.18, yaw: -1.6 }
-];
-
-
 console.log("script.js loaded");
 
 // ========================
@@ -32,8 +23,22 @@ view.addEventListener("change", () => {
 const scene = viewer.createScene({ source, geometry, view });
 scene.switchTo();
 
-LOCATIONS.forEach(loc => addLocationMarker(loc));
+fetch(
+  "https://opensheet.elk.sh/1_uO7_IOuoR9DNDjRCTvCxdKns993tvYI7ULuP7YW6l0/Location"
+)
+  .then((res) => res.json())
+  .then((locations) => {
+    console.log("LOCATIONS FROM SHEET:", locations);
 
+    locations.forEach((loc) => {
+      addLocationMarker({
+        name: loc.name,
+        pitch: parseFloat(loc.pitch),
+        yaw: parseFloat(loc.yaw),
+      });
+    });
+  })
+  .catch((err) => console.error("Location fetch error:", err));
 
 function resizeViewer() {
   viewer.updateSize();
@@ -45,13 +50,11 @@ window.addEventListener("orientationchange", resizeViewer);
 viewer.controls().enable("touchView");
 viewer.controls().enable("touchZoom");
 
-
-
 // Click helper (pitch / yaw)
 panoElement.addEventListener("click", (e) => {
   const c = viewer.view().screenToCoordinates({
     x: e.clientX,
-    y: e.clientY
+    y: e.clientY,
   });
   console.log("Pitch:", c.pitch.toFixed(3), "Yaw:", c.yaw.toFixed(3));
 });
@@ -75,13 +78,13 @@ function addHotspot(plot) {
 
   const el = document.createElement("div");
   el.className = `hotspot ${status}`;
-  // el.innerText = plot.PlotNo;
+  el.innerText = plot.PlotNo;
 
   el.onclick = () => showPlotCard(plot);
 
   scene.hotspotContainer().createHotspot(el, {
     pitch: parseFloat(plot.Pitch),
-    yaw: parseFloat(plot.Yaw)
+    yaw: parseFloat(plot.Yaw),
   });
 }
 
@@ -103,17 +106,15 @@ document.getElementById("search").addEventListener("input", (e) => {
 function showPlotCard(plot) {
   const status = plot.Status.toLowerCase().trim();
 
-  document.getElementById("cardPlotNo").innerText =
-    `Plot ${plot.PlotNo}`;
+  document.getElementById("cardPlotNo").innerText = `Plot ${plot.PlotNo}`;
 
   const statusEl = document.getElementById("cardStatus");
-  statusEl.className = "";          // remove old status class
-  statusEl.innerText = status;      // text
-  statusEl.classList.add(status);   // add booked/available/ongoing
+  statusEl.className = ""; // remove old status class
+  statusEl.innerText = status; // text
+  statusEl.classList.add(status); // add booked/available/ongoing
 
   document.getElementById("cardSize").innerText = plot.Size;
-  document.getElementById("cardLocation").innerText =
-    plot.Location || "—";
+  document.getElementById("cardLocation").innerText = plot.Location || "—";
   document.getElementById("cardRemarks").innerText = plot.Remarks;
 
   document.getElementById("plotCard").classList.remove("hidden");
@@ -123,23 +124,19 @@ function closeCard() {
   document.getElementById("plotCard").classList.add("hidden");
 }
 
-// 
+//
 
 function addLocationMarker({ name, pitch, yaw }) {
-
   const container = document.createElement("div");
   container.className = "location-hotspot";
 
-  // Label
   const label = document.createElement("div");
   label.className = "location-label";
   label.innerText = name;
 
-  // Straight line
   const line = document.createElement("div");
   line.className = "location-line";
 
-  // Pole
   const pole = document.createElement("div");
   pole.className = "location-pole";
 
@@ -149,6 +146,6 @@ function addLocationMarker({ name, pitch, yaw }) {
 
   scene.hotspotContainer().createHotspot(container, {
     pitch,
-    yaw
+    yaw,
   });
 }
