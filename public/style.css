@@ -98,12 +98,15 @@ body {
   color: #f1c40f; /* yellow (better visibility) */
 }
 
+#cardLocation {
+  font-style: italic;
+  color: #555;
+}
 
 /* =========================
    MOBILE RESPONSIVE
 ========================= */
 @media (max-width: 768px) {
-
   body {
     background: white !important;
   }
@@ -114,7 +117,7 @@ body {
     height: 100vh;
   }
 
-   #search {
+  #search {
     top: 12px;
     left: 50%;
     right: auto;
@@ -168,7 +171,6 @@ body {
    SMALL PHONES (VERY SMALL)
 ========================= */
 @media (max-width: 480px) {
-
   #search {
     width: 90%;
     font-size: 13px;
@@ -187,5 +189,66 @@ body {
 
   .plot-card h3 {
     font-size: 15px;
+  }
+}
+
+/*  */
+
+/* =========================
+   LOCATION POLE WITH LINE
+========================= */
+
+.location-hotspot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Label at top */
+.location-label {
+  margin-bottom: 6px;
+  white-space: nowrap;
+
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  padding: 4px 8px;
+  border-radius: 4px;
+
+  pointer-events: none;
+}
+
+/* Vertical line */
+.location-line {
+  width: 2px;
+  height: 20px;
+  background: #fff;
+  position: absolute;
+  top: 52px;
+  left: 6px;
+}
+
+/* Pole (dot) */
+.location-pole {
+  width: 12px;
+  height: 12px;
+  background: red;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .location-label {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+
+  .location-line {
+    height: 16px;
   }
 }

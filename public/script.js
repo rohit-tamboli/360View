@@ -1,3 +1,12 @@
+
+const LOCATIONS = [
+  { name: "Main Gate", pitch: 0.12, yaw: 1.05 },
+  { name: "Club House", pitch: -0.05, yaw: -0.8 },
+  { name: "Main Road", pitch: 0.02, yaw: 2.1 },
+  { name: "Temple", pitch: 0.18, yaw: -1.6 }
+];
+
+
 console.log("script.js loaded");
 
 // ========================
@@ -22,6 +31,9 @@ view.addEventListener("change", () => {
 
 const scene = viewer.createScene({ source, geometry, view });
 scene.switchTo();
+
+LOCATIONS.forEach(loc => addLocationMarker(loc));
+
 
 function resizeViewer() {
   viewer.updateSize();
@@ -100,6 +112,8 @@ function showPlotCard(plot) {
   statusEl.classList.add(status);   // add booked/available/ongoing
 
   document.getElementById("cardSize").innerText = plot.Size;
+  document.getElementById("cardLocation").innerText =
+    plot.Location || "—";
   document.getElementById("cardRemarks").innerText = plot.Remarks;
 
   document.getElementById("plotCard").classList.remove("hidden");
@@ -107,4 +121,34 @@ function showPlotCard(plot) {
 
 function closeCard() {
   document.getElementById("plotCard").classList.add("hidden");
+}
+
+// 
+
+function addLocationMarker({ name, pitch, yaw }) {
+
+  const container = document.createElement("div");
+  container.className = "location-hotspot";
+
+  // Label
+  const label = document.createElement("div");
+  label.className = "location-label";
+  label.innerText = name;
+
+  // Straight line
+  const line = document.createElement("div");
+  line.className = "location-line";
+
+  // Pole
+  const pole = document.createElement("div");
+  pole.className = "location-pole";
+
+  container.appendChild(label);
+  container.appendChild(line);
+  container.appendChild(pole);
+
+  scene.hotspotContainer().createHotspot(container, {
+    pitch,
+    yaw
+  });
 }
