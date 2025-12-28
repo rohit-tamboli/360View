@@ -1,15 +1,23 @@
-import axios from "axios";
-
 export default async function handler(req, res) {
   try {
-    const response = await axios.get(process.env.SHEET_URL);
+    const SHEET_URL = process.env.SHEET_URL;
 
-    const data = Array.isArray(response.data)
-      ? response.data
-      : Object.values(response.data)[0];
+    if (!SHEET_URL) {
+      return res.status(500).json({ error: "SHEET_URL not defined" });
+    }
 
-    res.status(200).json(data);
+    const response = await fetch(SHEET_URL);
+    const data = await response.json();
+
+    const plots = Array.isArray(data)
+      ? data
+      : Object.values(data)[0];
+
+    res.status(200).json(plots);
   } catch (error) {
-    res.status(500).json({ error: "Unable to fetch plot data" });
+    res.status(500).json({
+      error: "Serverless function crashed",
+      message: error.message
+    });
   }
 }
