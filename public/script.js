@@ -1,18 +1,18 @@
 console.log("script.js loaded");
 
-// ===== Panorama Setup =====
+// ========================
+// PANORAMA SETUP
+// ========================
 const panoElement = document.getElementById("pano");
 const viewer = new Marzipano.Viewer(panoElement);
 
-// IMPORTANT: absolute path for Vercel
 const source = Marzipano.ImageUrlSource.fromString("/panorama.jpg");
 const geometry = new Marzipano.EquirectGeometry([{ width: 4000 }]);
-
 const view = new Marzipano.RectilinearView();
 
-// Zoom limits (both IN & OUT, no half image)
-const MIN_FOV = Math.PI / 4;     // zoom IN limit
-const MAX_FOV = Math.PI * 1.4;   // zoom OUT limit (safe)
+// Zoom limits
+const MIN_FOV = Math.PI / 4;
+const MAX_FOV = Math.PI * 1.4;
 
 view.addEventListener("change", () => {
   const fov = view.parameters().fov;
@@ -23,7 +23,7 @@ view.addEventListener("change", () => {
 const scene = viewer.createScene({ source, geometry, view });
 scene.switchTo();
 
-// Click to read pitch/yaw (helper)
+// Click helper (pitch / yaw)
 panoElement.addEventListener("click", (e) => {
   const c = viewer.view().screenToCoordinates({
     x: e.clientX,
@@ -32,22 +32,26 @@ panoElement.addEventListener("click", (e) => {
   console.log("Pitch:", c.pitch.toFixed(3), "Yaw:", c.yaw.toFixed(3));
 });
 
-// ===== Fetch Data =====
+// ========================
+// FETCH DATA
+// ========================
 fetch("/api/plots")
-  .then(res => res.json())
-  .then(plots => {
+  .then((res) => res.json())
+  .then((plots) => {
     console.log("PLOTS:", plots);
     plots.forEach(addHotspot);
   })
-  .catch(err => console.error(err));
+  .catch((err) => console.error("Fetch error:", err));
 
-// ===== Hotspots =====
+// ========================
+// HOTSPOTS
+// ========================
 function addHotspot(plot) {
   const status = plot.Status.toLowerCase().trim();
 
   const el = document.createElement("div");
   el.className = `hotspot ${status}`;
-  el.innerText = plot.PlotNo;
+  // el.innerText = plot.PlotNo;
 
   el.onclick = () => showPlotCard(plot);
 
@@ -57,24 +61,31 @@ function addHotspot(plot) {
   });
 }
 
-// ===== Search =====
+// ========================
+// SEARCH
+// ========================
 document.getElementById("search").addEventListener("input", (e) => {
-  const v = e.target.value.toLowerCase();
-  document.querySelectorAll(".hotspot").forEach(h => {
-    h.style.display = h.innerText.toLowerCase().includes(v) ? "flex" : "none";
+  const value = e.target.value.toLowerCase();
+  document.querySelectorAll(".hotspot").forEach((h) => {
+    h.style.display = h.innerText.toLowerCase().includes(value)
+      ? "flex"
+      : "none";
   });
 });
 
-// ===== Plot Card =====
+// ========================
+// PLOT CARD
+// ========================
 function showPlotCard(plot) {
   const status = plot.Status.toLowerCase().trim();
 
-  document.getElementById("cardPlotNo").innerText = `Plot ${plot.PlotNo}`;
+  document.getElementById("cardPlotNo").innerText =
+    `Plot ${plot.PlotNo}`;
 
   const statusEl = document.getElementById("cardStatus");
-  statusEl.className = "";
-  statusEl.innerText = status;
-  statusEl.classList.add(status);
+  statusEl.className = "";          // remove old status class
+  statusEl.innerText = status;      // text
+  statusEl.classList.add(status);   // add booked/available/ongoing
 
   document.getElementById("cardSize").innerText = plot.Size;
   document.getElementById("cardRemarks").innerText = plot.Remarks;
