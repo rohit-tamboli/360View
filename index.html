@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>360 Plot Live Inventory</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.marzipano.net/build/marzipano.js"></script>
+</head>
+<body>
+
+  <div id="pano"></div>
+
+  <input id="search" placeholder="Search Plot No" />
+
+  <!-- Plot Info Card -->
+  <div id="plotCard" class="plot-card hidden">
+    <h3 id="cardPlotNo"></h3>
+    <p><b>Status:</b> <span id="cardStatus"></span></p>
+    <p><b>Size:</b> <span id="cardSize"></span></p>
+    <p><b>Remarks:</b> <span id="cardRemarks"></span></p>
+    <button onclick="closeCard()">Close</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#pano {
+  width: 100vw;
+  height: 100vh;
+}
+
+#search {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 8px;
+  z-index: 10;
+}
+
+/* Hotspots */
+.hotspot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.booked { background: red; }
+.available { background: blue; }
+.ongoing { background: orange; }
+
+/* Plot Card */
+.plot-card {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  width: 220px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  z-index: 20;
+}
+
+.hidden { display: none; }
+
+.plot-card .booked { color: red; font-weight: bold; }
+.plot-card .available { color: blue; font-weight: bold; }
+.plot-card .ongoing { color: orange; font-weight: bold; }
