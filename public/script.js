@@ -23,6 +23,18 @@ view.addEventListener("change", () => {
 const scene = viewer.createScene({ source, geometry, view });
 scene.switchTo();
 
+function resizeViewer() {
+  viewer.updateSize();
+}
+
+window.addEventListener("resize", resizeViewer);
+window.addEventListener("orientationchange", resizeViewer);
+
+viewer.controls().enable("touchView");
+viewer.controls().enable("touchZoom");
+
+
+
 // Click helper (pitch / yaw)
 panoElement.addEventListener("click", (e) => {
   const c = viewer.view().screenToCoordinates({

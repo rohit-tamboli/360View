@@ -4,11 +4,16 @@ body {
   width: 100%;
   height: 100%;
   font-family: Arial, sans-serif;
+  overflow: hidden;
+  touch-action: none;
 }
 
 #pano {
-  width: 100vw;
-  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /* =========================
@@ -91,4 +96,81 @@ body {
 
 #cardStatus.ongoing {
   color: #f1c40f; /* yellow (better visibility) */
+}
+
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+
+  body {
+    background: red !important;
+  }
+
+  /* Fullscreen panorama */
+  #pano {
+    width: 100vw;
+    height: 100vh;
+  }
+
+   #search {
+    top: 12px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: 85%;
+    font-size: 14px;
+  }
+
+  .hotspot {
+    width: 34px;
+    height: 34px;
+    font-size: 12px;
+  }
+
+  .plot-card {
+    width: calc(100% - 24px);
+    left: 12px;
+    bottom: 12px;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .plot-card h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .plot-card p {
+    margin: 6px 0;
+  }
+
+  /* Close button full width */
+  .plot-card button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    font-size: 14px;
+  }
+}
+
+/* =========================
+   SMALL PHONES (VERY SMALL)
+========================= */
+@media (max-width: 480px) {
+
+  #search {
+    width: 90%;
+    font-size: 13px;
+  }
+
+  .hotspot {
+    width: 28px;
+    height: 28px;
+  }
+
+  .plot-card {
+    font-size: 13px;
+  }
 }
