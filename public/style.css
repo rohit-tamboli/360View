@@ -8,13 +8,20 @@ body {
   touch-action: none;
 }
 
-#pano {
+/* #pano {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+} */
+
+#pano {
+  position: relative;   
+  width: 100%;
+  height: 100%;
 }
+
 
 /* =========================
    SEARCH BOX
@@ -203,10 +210,11 @@ body {
 ========================= */
 
 .location-hotspot {
-  position: relative;
+  /* position: relative; */
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* pointer-events: auto; */
 }
 
 /* Label at top */

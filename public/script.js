@@ -11,8 +11,8 @@ const geometry = new Marzipano.EquirectGeometry([{ width: 4000 }]);
 const view = new Marzipano.RectilinearView();
 
 // Zoom limits
-const MIN_FOV = Math.PI / 4;
-const MAX_FOV = Math.PI * 1.4;
+const MIN_FOV = Math.PI / 4.2;
+const MAX_FOV = Math.PI * 2.2;
 
 view.addEventListener("change", () => {
   const fov = view.parameters().fov;
@@ -86,6 +86,8 @@ function addHotspot(plot) {
     pitch: parseFloat(plot.Pitch),
     yaw: parseFloat(plot.Yaw),
   });
+
+  
 }
 
 // ========================
